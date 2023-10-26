@@ -5,7 +5,7 @@
 
     "program-name": "Python Program Framework",
 
-    "console-disabled": true,
+    "console-disabled": false,
 
     "data-folder": "/data/"
 }

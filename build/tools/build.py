@@ -24,7 +24,7 @@ def building(console_disabled: bool, program_icon: str) -> None:
     # Генерация флагов компиляции:
     if True:
         flags = "-F --onefile"
-        if not console_disabled:     flags +=  " --noconsole"
+        if console_disabled:         flags +=  " --noconsole"
         if program_icon is not None: flags += f" --icon=../../{program_icon}"
 
     print(f"{' COMPILATION FILE: ':-^96}")
