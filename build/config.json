@@ -1,0 +1,11 @@
+{
+    "main-file": "/src/main.py",
+
+    "program-icon": "/data/icons/icon.ico",
+
+    "program-name": "Python Program Framework",
+
+    "console-disabled": true,
+
+    "data-folder": "/data/"
+}
