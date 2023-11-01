@@ -20,15 +20,10 @@ def clear_console() -> None:
 
 
 # Сборка проекта:
-def building(console_disabled: bool, program_icon: str) -> None:
-    # Генерация флагов компиляции:
-    if True:
-        flags = "-F --onefile"
-        if console_disabled:         flags +=  " --noconsole"
-        if program_icon is not None: flags += f" --icon=../../{program_icon}"
-
+def building() -> None:
     print(f"{' COMPILATION FILE: ':-^96}")
-    os.system(f"pyinstaller -F --onefile {flags} -n=\"{program_name}\" ../../{main_file}")
+    os.system(f"set PYTHONOPTIMIZE={optimization_level}")
+    os.system(f"pyinstaller {flags} -n=\"{program_name}\" ../../{main_file}")
     print("\n\n> COMPILATION IS SUCCESSFUL!")
     print(f"{'─'*96}\n\n")
 
@@ -55,13 +50,21 @@ if __name__ == "__main__":
 
     # Преобразование данных конфигурации в переменные:
     if True:
-        main_file        = config["main-file"]
-        program_icon     = config["program-icon"]
-        program_name     = config["program-name"]
-        console_disabled = config["console-disabled"]
-        data_folder      = config["data-folder"]
+        main_file          = config["main-file"]
+        program_icon       = config["program-icon"]
+        program_name       = config["program-name"]
+        console_disabled   = config["console-disabled"]
+        data_folder        = config["data-folder"]
+        pyinstaller_flags  = config["pyinstaller-flags"]
+        optimization_level = config["optimization-level"]
 
-    building(console_disabled, program_icon)  # Собираем проект.
-    final()                                   # Удаляем мусор и собираем всё в одну папку.
+        # Генерация флагов компиляции:
+        flags = ""
+        for flag in pyinstaller_flags: flags += f"{flag} "
+        if console_disabled:           flags +=  "--noconsole "
+        if program_icon is not None:   flags += f"--icon=../../{program_icon} "
+
+    building()  # Собираем проект.
+    final()     # Удаляем мусор и собираем всё в одну папку.
 
     print("\n\nDone!\nBuild in folder: /build/out/")
