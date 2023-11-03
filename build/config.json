@@ -10,7 +10,7 @@
     "data-folder": "/data/",
 
     "pyinstaller-flags": [
-        "-F", "--onefile", "--strip"
+        "-F", "--onefile", "--strip", "--log-level WARN"
     ],
 
     "optimization-level": 2
