@@ -1,6 +1,8 @@
 #
 # build.py - Компилирует вашу программу в бинарный файл при помощи pyinstaller.
 #
+# log-level: TRACE, DEBUG, INFO, WARN, DEPRECATION, ERROR, FATAL
+#
 
 
 # Импортируем:
@@ -8,7 +10,27 @@ if True:
     import os
     import sys
     import json
+    import time
     import shutil
+    from threading import Thread
+
+
+# Всякое:
+if True:
+    os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
+    wait_active   = False
+    wait_text     = "> wait... "
+    wait_text_len = len(wait_text)+1
+
+
+# Ожидание:
+def waiting() -> None:
+    symbols = r"/-\|"
+    while wait_active:
+        for s in symbols:
+            if not wait_active: continue
+            print("\r"+wait_text+s, end="")
+            time.sleep(0.1)
 
 
 # Очищаем консоль:
@@ -21,16 +43,23 @@ def clear_console() -> None:
 
 # Сборка проекта:
 def building() -> None:
-    print(f"{' COMPILATION FILE: ':-^96}")
+    global wait_active
+    print(f"{' COMPILATION PROJECT ':─^96}")
+    if waiting_enabled:
+        wait_active = True
+        waiting_thread.start()
+
     os.system(f"set PYTHONOPTIMIZE={optimization_level}")
     os.system(f"pyinstaller {flags} -n=\"{program_name}\" ../../{main_file}")
-    print("\n\n> COMPILATION IS SUCCESSFUL!")
-    print(f"{'─'*96}\n\n")
+
+    print(f"\r{' '*wait_text_len}\n> COMPILATION IS SUCCESSFUL!\n{'─'*96}\n\n")
 
 
 # Финальные штрихи:
 def final() -> None:
+    global wait_active
     print("Deleting temporary build files...")
+
     if os.path.isdir("../out/"): shutil.rmtree("../out/")
     if os.path.isdir("build"): shutil.rmtree("build")
     for file in os.listdir():
@@ -39,6 +68,9 @@ def final() -> None:
         shutil.copytree("./dist/", "../out/", dirs_exist_ok=True)
         shutil.rmtree("./dist/")
         shutil.copytree(f"../../{data_folder}", f"../out/{os.path.basename(os.path.normpath(data_folder))}")
+
+    wait_active = False
+    print("\rDone!"+' '*wait_text_len)
 
 
 # Если этот скрипт запускают:
@@ -57,6 +89,8 @@ if __name__ == "__main__":
         data_folder        = config["data-folder"]
         pyinstaller_flags  = config["pyinstaller-flags"]
         optimization_level = config["optimization-level"]
+        lg                 = "--log-level "
+        waiting_enabled    = any(flag in pyinstaller_flags for flag in [lg+"WARN", lg+"ERROR", lg+"FATAL"])
 
         # Генерация флагов компиляции:
         flags = ""
@@ -64,7 +98,10 @@ if __name__ == "__main__":
         if console_disabled:           flags +=  "--noconsole "
         if program_icon is not None:   flags += f"--icon=../../{program_icon} "
 
+    # Отдельный поток для вывода ожидания:
+    waiting_thread = Thread(target=waiting, daemon=True)
+
     building()  # Собираем проект.
     final()     # Удаляем мусор и собираем всё в одну папку.
 
-    print("\n\nDone!\nBuild in folder: /build/out/")
+    print("\n\nOutput of build in folder: /build/out/")
