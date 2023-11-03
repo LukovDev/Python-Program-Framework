@@ -18,7 +18,7 @@ if True:
 # Всякое:
 if True:
     os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
-    wait_active   = False
+    wait_active   = True
     wait_text     = "> wait... "
     wait_text_len = len(wait_text)+1
 
@@ -45,9 +45,7 @@ def clear_console() -> None:
 def building() -> None:
     global wait_active
     print(f"{' COMPILATION PROJECT ':─^96}")
-    if waiting_enabled:
-        wait_active = True
-        waiting_thread.start()
+    if waiting_enabled: waiting_thread.start()
 
     os.system(f"set PYTHONOPTIMIZE={optimization_level}")
     os.system(f"pyinstaller {flags} -n=\"{program_name}\" ../../{main_file}")
