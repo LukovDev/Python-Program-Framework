@@ -85,8 +85,8 @@ if __name__ == "__main__":
         program_name       = config["program-name"]
         console_disabled   = config["console-disabled"]
         data_folder        = config["data-folder"]
-        pyinstaller_flags  = config["pyinstaller-flags"]
         optimization_level = config["optimization-level"]
+        pyinstaller_flags  = config["pyinstaller-flags"]
         lg                 = "--log-level "
         waiting_enabled    = any(flag in pyinstaller_flags for flag in [lg+"WARN", lg+"ERROR", lg+"FATAL"])
 
