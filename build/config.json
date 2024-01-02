@@ -12,6 +12,6 @@
     "optimization-level": 2,
 
     "pyinstaller-flags": [
-        "-F", "--onefile", "--strip", "--log-level WARN"
+        "-F", "--log-level WARN"
     ]
 }

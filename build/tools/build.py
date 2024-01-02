@@ -48,7 +48,7 @@ def building() -> None:
     if waiting_enabled: waiting_thread.start()
 
     os.system(f"set PYTHONOPTIMIZE={optimization_level}")
-    os.system(f"pyinstaller {flags} -n=\"{program_name}\" ../../{main_file}")
+    os.system(f"pyinstaller {flags} ../../{main_file}")
 
     print(f"\r{' '*wait_text_len}\n> COMPILATION IS SUCCESSFUL!\n{'─'*96}\n\n")
 
@@ -91,7 +91,7 @@ if __name__ == "__main__":
         waiting_enabled    = any(flag in pyinstaller_flags for flag in [lg+"WARN", lg+"ERROR", lg+"FATAL"])
 
         # Генерация флагов компиляции:
-        flags = ""
+        flags = f"--noconfirm -n=\"{program_name}\" "
         for flag in pyinstaller_flags: flags += f"{flag} "
         if console_disabled:           flags +=  "--noconsole "
         if program_icon is not None:   flags += f"--icon=../../{program_icon} "
