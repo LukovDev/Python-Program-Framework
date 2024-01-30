@@ -1,13 +1,13 @@
 {
-    "main-file": "/src/main.py",
-
-    "program-icon": "/data/icons/icon.ico",
-
     "program-name": "Python Program Framework",
 
-    "console-disabled": false,
+    "main-file":    "/src/main.py",
 
-    "data-folder": "/data/",
+    "data-folder":  "/data/",
+
+    "program-icon": "/data/icons/build-icon.ico",
+
+    "console-disabled": false,
 
     "optimization-level": 2,
 
