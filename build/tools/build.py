@@ -82,6 +82,9 @@ def main() -> None:
     for file in os.listdir():
         if file.endswith(".spec"): os.remove(file)
 
+    # Копируем папку с данными:
+    print("\n\n\nCopying the data folder...")
+
     # Копируем содержимое сборки и содержимое data папки в папку out:
     if os.path.isdir("./dist/"):
         shutil.copytree("./dist/", "../out/", dirs_exist_ok=True)
