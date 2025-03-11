@@ -5,9 +5,9 @@
 
     "data-folder":  "data/",
 
-    "program-icon": "data/icons/build-icon.ico",
+    "program-icon": "data/icons/build-icon.icns",
 
-    "console-disabled": false,
+    "console-disabled": true,
 
     "pyinstaller-flags": [
         "--onefile", "--log-level WARN"
