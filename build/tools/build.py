@@ -32,8 +32,7 @@ def waiting() -> None:
 
 # Очищаем консоль:
 def clear_console() -> None:
-    if os.name == "nt": os.system("cls")
-    else: os.system("clear")
+    os.system("cls")
 
 
 # Основная функция:
@@ -66,12 +65,12 @@ def main() -> None:
     if program_icon is not None:   flags += f"--icon=../../{program_icon} "
 
     # Собираем проект:
-    print(f"{' COMPILATION PROJECT ':─^96}\n")
+    print(f"{' COMPILATION PROJECT ':─^80}\n")
     if waiting_enabled: waiting_thread.start()
 
     os.system(f"pyinstaller {flags} ../../{main_file}")
 
-    print(f"\r{' '*wait_text_len}\n> COMPILATION IS SUCCESSFUL!\n\n{'─'*96}\n\n")
+    print(f"\r{' '*wait_text_len}\n> COMPILATION IS SUCCESSFUL!\n\n{'─'*80}\n\n")
 
     # Удаляем мусор и собираем всё в одну папку:
     print("Deleting temporary build files...")
