@@ -7,6 +7,7 @@
 
 # Импортируем:
 import os
+import sys
 import json
 import time
 import shutil
@@ -32,7 +33,11 @@ def waiting() -> None:
 
 # Очищаем консоль:
 def clear_console() -> None:
-    os.system("cls")
+    if sys.platform == "win32":
+        os.system("cls")
+    elif sys.platform == "darwin":
+        print("\033c", end="")
+    else: os.system("clear")
 
 
 # Основная функция:
@@ -61,14 +66,15 @@ def main() -> None:
     # Генерация флагов компиляции:
     flags = f"--noconfirm -n=\"{program_name}\" "
     for flag in pyinstaller_flags: flags += f"{flag} "
-    if console_disabled:           flags +=  "--noconsole "
+    if console_disabled:           flags +=  "--noconsole " if sys.platform == "win32" else "--noconsole --windowed "
     if program_icon is not None:   flags += f"--icon=../../{program_icon} "
 
     # Собираем проект:
     print(f"{' COMPILATION PROJECT ':─^80}\n")
     if waiting_enabled: waiting_thread.start()
 
-    os.system(f"pyinstaller {flags} ../../{main_file}")
+    pyinst = "python3 -m PyInstaller" if sys.platform == "darwin" else "pyinstaller"
+    os.system(f"{pyinst} {flags} ../../{main_file}")
 
     print(f"\r{' '*wait_text_len}\n> COMPILATION IS SUCCESSFUL!\n\n{'─'*80}\n\n")
 
